@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คำนวณคะแนนสอบ</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body { font-family: 'Noto Sans Thai', sans-serif; background: #f0f0f0; padding: 20px; }
+    .container { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 16px; }
+    h2 { text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>คำนวณคะแนนสอบ</h2>
+    <input type="number" id="startYear" placeholder="ปีที่สอบครั้งแรก เช่น 2560">
+    <input type="number" id="startScore" placeholder="คะแนนเริ่มต้น เช่น 60">
+    <button onclick="submitForm()">คำนวณและส่งผลกลับ LINE</button>
+  </div>
+
+  <script>
+    async function submitForm() {
+      await liff.init({ liffId: "YOUR_LIFF_ID" });
+      const userId = (await liff.getProfile()).userId;
+      const startYear = document.getElementById("startYear").value;
+      const startScore = document.getElementById("startScore").value;
+
+      fetch("YOUR_SCRIPT_URL", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, year: startYear, score: startScore })
+      }).then(() => alert("ส่งผลคะแนนกลับ LINE สำเร็จ"));
+    }
+  </script>
+</body>
+</html>
